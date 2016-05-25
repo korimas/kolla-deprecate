@@ -61,6 +61,8 @@ notify_on_state_change = vm_and_task_state
 notification_driver = messagingv2
 {% endif %}
 
+compute_monitors = cpu.virt_driver, numa_mem_bw.virt_driver
+
 {% if nova_console == 'novnc' %}
 [vnc]
 novncproxy_host = {{ hostvars[inventory_hostname]['ansible_' + api_interface]['ipv4']['address'] }}
