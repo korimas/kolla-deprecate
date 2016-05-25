@@ -16,6 +16,11 @@ show_image_direct_url= True
 
 cinder_catalog_info = volume:cinder:internalURL
 
+{% if enable_ceilometer | bool %}
+notification_driver = messagingv2
+rpc_backend = rabbit
+{% endif %}
+
 [database]
 connection = mysql+pymysql://{{ glance_database_user }}:{{ glance_database_password }}@{{ glance_database_address }}/{{ glance_database_name }}
 max_retries = -1
@@ -51,4 +56,15 @@ filesystem_store_datadir = /var/lib/glance/images/
 {% endif %}
 
 [oslo_messaging_notifications]
+{% if enable_ceilometer | bool %}
+driver = messagingv2
+{% else %}
 driver = noop
+{% endif %}
+
+{% if enable_ceilometer | bool %}
+[oslo_messaging_rabbit]
+rabbit_hosts = {% for host in groups['rabbitmq'] %}{{ hostvars[host]['ansible_' + hostvars[host]['api_interface']]['ipv4']['address'] }}:{{ rabbitmq_port }}{% if not loop.last %},{% endif %}{% endfor %}
+rabbit_userid = {{ rabbitmq_user }}
+rabbit_password = {{ rabbitmq_password }}
+{% endif %}
