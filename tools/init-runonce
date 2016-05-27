@@ -38,7 +38,7 @@ fi
 echo Downloading glance image.
 IMAGE_URL=http://download.cirros-cloud.net/0.3.4/
 IMAGE=cirros-0.3.4-x86_64-disk.img
-glance image-create --name cirros --progress --disk-format qcow2 --container-format bare --progress --file $IMAGE
+glance image-create --name cirros --progress --disk-format qcow2 --container-format bare --progress --file ./$IMAGE
 
 if [[ "${NETWORK_MANAGER}" == "nova" ]] ; then
     echo Configuring nova networking.
