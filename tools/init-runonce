@@ -30,15 +30,15 @@ if [[ "${OS_USERNAME}" == "" ]]; then
 fi
 
 # Test to ensure configure script is run only once
-if glance image-list | grep -q cirros; then
-    echo "This tool should only be run once per deployment."
-    exit
-fi
+#if glance image-list | grep -q cirros; then
+#    echo "This tool should only be run once per deployment."
+#    exit
+#fi
 
-echo Downloading glance image.
-IMAGE_URL=http://download.cirros-cloud.net/0.3.4/
-IMAGE=cirros-0.3.4-x86_64-disk.img
-glance image-create --name cirros --progress --disk-format qcow2 --container-format bare --progress --file ./$IMAGE
+#echo Downloading glance image.
+#IMAGE_URL=http://download.cirros-cloud.net/0.3.4/
+#IMAGE=cirros-0.3.4-x86_64-disk.img
+#glance image-create --name cirros --progress --disk-format qcow2 --container-format bare --progress --file ./$IMAGE
 
 if [[ "${NETWORK_MANAGER}" == "nova" ]] ; then
     echo Configuring nova networking.
@@ -48,7 +48,7 @@ if [[ "${NETWORK_MANAGER}" == "nova" ]] ; then
 else
     echo Configuring neutron.
     neutron net-create public1 --router:external --provider:physical_network physnet1 --provider:network_type flat
-    neutron subnet-create --name 1-subnet --disable-dhcp --allocation-pool start=10.0.2.150,end=10.0.2.199 public1 10.0.2.0/24 --gateway 10.0.2.1
+    neutron subnet-create --name 1-subnet --disable-dhcp --allocation-pool start=10.0.3.150,end=10.0.3.199 public1 10.0.3.0/24 --gateway 10.0.3.1
     neutron net-create demo-net --provider:network_type vxlan
     neutron subnet-create demo-net 10.0.0.0/24 --name demo-subnet --gateway 10.0.0.1 --dns-nameservers list=true 8.8.8.8
     neutron router-create demo-router
