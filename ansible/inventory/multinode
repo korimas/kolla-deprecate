@@ -13,7 +13,8 @@ controller
 controller
 
 [compute]
-compute
+compute0
+compute1
 
 # When compute nodes and control nodes use different interfaces,
 # you can specify "api_interface" and another interfaces like below:
