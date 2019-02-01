@@ -9,6 +9,7 @@ RUN curl -L https://trunk.rdoproject.org/centos7/current/delorean.repo -o /etc/y
     && yum clean all
 
     {% endif %}
+RUN useradd --user-group magnum
 {% elif install_type == 'source' %}
 
 ADD magnum-base-archive /magnum-base-source
